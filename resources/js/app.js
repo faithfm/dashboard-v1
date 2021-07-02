@@ -4,18 +4,19 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
+import Vue from 'vue'
 import vuetify from './vuetify'; // import and use vuetify
 import {
-    App,
+    InertiaApp,
     plugin
 } from '@inertiajs/inertia-vue'
 import {
     InertiaProgress
 } from '@inertiajs/progress'
-import Vue from 'vue'
+import App from './Shared/TheSharedLayout'
 
 window.Vue = require('vue');
-Vue.use(plugin);
+Vue.use(plugin)
 
 /**
  * The following block of code may be used to automatically register your
@@ -35,14 +36,22 @@ InertiaProgress.init()
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
-const el = document.getElementById('app')
+const app = document.getElementById('app')
 
-const app = new Vue({
+new Vue({
     vuetify,
-    render: h => h(App, {
+    render: h => h(InertiaApp, {
         props: {
-            initialPage: JSON.parse(el.dataset.page),
-            resolveComponent: name => require(`./components/${name}`).default,
+            initialPage: JSON.parse(app.dataset.page),
+            resolveComponent: (name) => {
+                const module = require(`./Pages/${name}`);
+
+                if (!module.default.layout) {
+                    module.default.layout = App
+                }
+
+                return module.default;
+            }
         },
-    })
-}).$mount(el);
+    }),
+}).$mount(app)
