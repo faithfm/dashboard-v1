@@ -12,20 +12,7 @@
 
   <!-- Scripts -->
   @section('scripts')
-  <script>
-    @section('laravel_app_globals')
-                var LaravelAppGlobals = Object.freeze({!! json_encode([
-                    'guest' => auth()->guest(),
-                    'user' => auth()->user(),
-                    'csrf-token' => csrf_token(),
-                    'config' => [
-                        'name' => config('app.name'),
-                        'url' => config('app.url'),
-                        ],
-                ]) !!});
-            @show
-  </script>
-  <script src="{{ mix('js/app.js') }}" defer></script>
+    <script src="{{ mix('js/app.js') }}" defer></script>
   @show
 
   <!-- Fonts -->

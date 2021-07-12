@@ -28,15 +28,42 @@
 				<v-btn @click="logout()">Logout</v-btn>
 			</template>
 		</v-app-bar>
-		<slot />
+		<v-main>
+			<v-container v-if="app.guest">
+				<v-card class="ma-4 pa-8" min-height="400px">
+					<v-card-title>Not Logged In</v-card-title>
+					<v-card-text>You are not logged in.</v-card-text>
+				</v-card>
+			</v-container>
+
+			<slot v-else-if="userPermission" />
+
+			<v-container v-else>
+				<v-card class="ma-4 pa-8" min-height="400px">
+					<v-card-title>No Access</v-card-title>
+					<v-card-text>
+						Your user account does not currently have access to the
+						{{ app.name }} system.<br /><br />
+						Please contact a system administator if you need access to this
+						system - providing the email address you used to sign-up / log-in.
+					</v-card-text>
+				</v-card>
+			</v-container>
+		</v-main>
 	</v-app>
 </template>
 <script>
 export default {
 	data() {
-		return {
-			app: LaravelAppGlobals,
-		};
+		return {};
+	},
+	computed: {
+		app() {
+			return this.$page.props.LaravelAppGlobals;
+		},
+		userPermission() {
+			return this.app.user.permissions.some((p) => p.permission === "use-app");
+		},
 	},
 	methods: {
 		login() {

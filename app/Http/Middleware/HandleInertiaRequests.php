@@ -37,7 +37,16 @@ class HandleInertiaRequests extends Middleware
     public function share(Request $request)
     {
         return array_merge(parent::share($request), [
-            //
+            'LaravelAppGlobals' => [
+                'guest' => auth()->guest(),
+                'user' => auth()->user(),
+                'csrf-token' => csrf_token(),
+                'config' => [
+                    'name' => config('app.name'),
+                    'url' => config('app.url'),
+                ],
+            ]
+
         ]);
     }
 }
