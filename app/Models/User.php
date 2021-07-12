@@ -3,13 +3,15 @@
 namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use App\Traits\Auth0Trait;
+use OwenIt\Auditing\Contracts\Auditable;
 
-class User extends Authenticatable
+class User extends Authenticatable implements Auditable
 {
+    use \OwenIt\Auditing\Auditable;
+
     // Our Auth0Trait is here added to the User model... extending it to include Auth0 authentication information.
     // It works in conjunction with our CustomUserRepository.php implementation.
     //
@@ -19,7 +21,7 @@ class User extends Authenticatable
     //      Apart from completely changing the way that User data can be accessed for the currently-authenticated user, the Auth0User class is not compatible with other standard features including Laravel's guards implementation.
     //      Note: Auth0 are currently looking to rectify this by switching their implementation to use an "Auth0 Trait" (to extend the normal User model instead).  (See https://github.com/auth0/laravel-auth0/pull/165)
     //      However until this becomes generally available, I've adapted @aaronflorey's code to create our own Auth0Trait which we add to the User model.   (See https://gist.github.com/aaronflorey/d20f27a2b0475d238e10b46de3bc3eb4)
-    use HasFactory, Notifiable, Auth0Trait;
+    use Notifiable, Auth0Trait;
 
     /**
      * The attributes that are mass assignable.
