@@ -1,4 +1,9 @@
 <?php
+/**
+ * This file is cloned / force-published from the "laravel-auth0-pattern" composer package.
+ *    WARNING: Local modifications will be overwritten when the package is updated.
+ *             See https://github.com/faithfm/laravel-auth0-pattern for more details.
+ */
 
 namespace App\Models;
 
@@ -18,6 +23,15 @@ class UserPermission extends Model implements Auditable
      */
     protected $fillable = [
         'user_id', 'permission', 'restrictions',
+    ];
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'restrictions' => 'array',
     ];
 
     /**
