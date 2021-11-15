@@ -13,6 +13,13 @@ use Illuminate\Http\Request;
 | contains the "web" middleware group. Now create something great!
 |
 */
+// override Nova's login/logout routes
+Route::get('nova/logout', function () {
+    return redirect()->route('logout');
+})->name('nova.logout');
+Route::get('nova/login', function () {
+    return redirect()->route('login');
+})->name('nova.login');
 
 Route::inertia('/', 'UnderConstructionComponent');
 
